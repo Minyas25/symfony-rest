@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/movie')]
 class MovieController extends AbstractController
@@ -46,12 +47,29 @@ class MovieController extends AbstractController
     }
 
     #[Route(methods: 'POST')]
-    public function add(Request $request) {
-        $data = $request->toArray();
-        $movie = new Movie($data['title'], $data['resume'], new \DateTime($data['released']), $data['length']);
-        
+    public function add(Request $request, SerializerInterface $serializer) {
+        // $data = $request->toArray();
+        // $movie = new Movie($data['title'], $data['resume'], new \DateTime($data['released']), $data['length']);
+
+        $movie = $serializer->deserialize($request->getContent(), Movie::class, 'json');
         $this->repo->persist($movie);
 
         return $this->json($movie, 201);
+    }
+
+    #[Route('/{id}', methods: 'PATCH')]
+    public function update(int $id, Request $request, SerializerInterface $serializer) {
+        
+        $movie = $this->repo->findById($id);
+        if($movie == null) {
+            return $this->json('Resource Not found', 404);
+        }
+
+        $serializer->deserialize($request->getContent(), Movie::class, 'json',[
+            'object_to_populate' => $movie
+        ]);
+        $this->repo->update($movie);
+
+        return $this->json($movie);
     }
 }
