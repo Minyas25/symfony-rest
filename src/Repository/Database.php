@@ -13,6 +13,6 @@ class Database {
      * plutôt que sur instance de Database. L'usage du static est à limité autant que possible pour des cas particuliers comme ici
      */
     public static function getConnection() {
-        return new \PDO("mysql:host=localhost;dbname=symfony", "root", "1234");
+        return new \PDO("mysql:host=localhost;dbname=symfony_rest", "root", "1234");
     }
 }
