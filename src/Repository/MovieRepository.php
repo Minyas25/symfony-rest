@@ -9,9 +9,9 @@ class MovieRepository
 {
 
     /**
-     * Méthode qui va faire une requête pour récupérer tous les produits de la base de données puis qui va boucler
+     * Méthode qui va faire une requête pour récupérer tous les movies de la base de données puis qui va boucler
      * sur les résultat de la requête pour transformer chaque ligne de résultat en instance de la classe Movie
-     * @return Movie[] La liste des produits contenus dans la base de données;
+     * @return Movie[] La liste des movies contenus dans la base de données;
      */
     public function findAll(): array
     {
@@ -30,10 +30,10 @@ class MovieRepository
     }
 
     /**
-     * Méthode permettant de récupérer un produit spécifique en se basant sur son id
-     * Si aucun produit n'existe pour cet id dans la base de données, on renvoie null
+     * Méthode permettant de récupérer un movie spécifique en se basant sur son id
+     * Si aucun movie n'existe pour cet id dans la base de données, on renvoie null
      * 
-     * @param $id l'id du produit que l'on souhaite récupérer
+     * @param $id l'id du movie que l'on souhaite récupérer
      */
     public function findById(int $id):?Movie {
 
@@ -53,7 +53,7 @@ class MovieRepository
     /**
      * Méthode qui va prendre une instance de Movie en argument et va la transformer en requête INSERT INTO pour 
      * la faire persister en base de données
-     * @param $movie Le produit que l'on souhaite faire persister (qui n'aura donc pas d'id au début de la méthode, car pas encore dans la bdd)
+     * @param $movie Le movie que l'on souhaite faire persister (qui n'aura donc pas d'id au début de la méthode, car pas encore dans la bdd)
      */
     public function persist(Movie $movie) {
         $connection = Database::getConnection();
@@ -67,14 +67,14 @@ class MovieRepository
 
         $query->execute();
 
-        //On assigne l'id auto incrémenté à l'instance de produit afin que l'objet soit complet après le persist
+        //On assigne l'id auto incrémenté à l'instance de movie afin que l'objet soit complet après le persist
         $movie->setId($connection->lastInsertId());
     }
 
     /**
-     * Méthode qui permet de supprimer un produit de la base de données en se basant sur son id
+     * Méthode qui permet de supprimer un movie de la base de données en se basant sur son id
      * 
-     * @param $id l'id du produit à supprimer
+     * @param $id l'id du movie à supprimer
      */
     public function delete(int $id) {
 
@@ -86,9 +86,9 @@ class MovieRepository
     }
 
     /**
-     * Méthode pour mettre un jour un produit existant en base de données
+     * Méthode pour mettre un jour un movie existant en base de données
      * 
-     * @param Movie $movie Le produit à mettre à jour. Il doit avoir un id correspondant à une ligne de la bdd
+     * @param Movie $movie Le movie à mettre à jour. Il doit avoir un id correspondant à une ligne de la bdd
      */
     public function update(Movie $movie) {
         

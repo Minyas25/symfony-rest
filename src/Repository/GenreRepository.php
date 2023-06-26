@@ -9,9 +9,9 @@ class GenreRepository
 {
 
     /**
-     * Méthode qui va faire une requête pour récupérer tous les produits de la base de données puis qui va boucler
+     * Méthode qui va faire une requête pour récupérer tous les genres de la base de données puis qui va boucler
      * sur les résultat de la requête pour transformer chaque ligne de résultat en instance de la classe Genre
-     * @return Genre[] La liste des produits contenus dans la base de données;
+     * @return Genre[] La liste des genres contenus dans la base de données;
      */
     public function findAll(): array
     {
@@ -30,10 +30,10 @@ class GenreRepository
     }
 
     /**
-     * Méthode permettant de récupérer un produit spécifique en se basant sur son id
-     * Si aucun produit n'existe pour cet id dans la base de données, on renvoie null
+     * Méthode permettant de récupérer un genre spécifique en se basant sur son id
+     * Si aucun genre n'existe pour cet id dans la base de données, on renvoie null
      * 
-     * @param $id l'id du produit que l'on souhaite récupérer
+     * @param $id l'id du genre que l'on souhaite récupérer
      */
     public function findById(int $id):?Genre {
 
@@ -53,7 +53,7 @@ class GenreRepository
     /**
      * Méthode qui va prendre une instance de Genre en argument et va la transformer en requête INSERT INTO pour 
      * la faire persister en base de données
-     * @param $genre Le produit que l'on souhaite faire persister (qui n'aura donc pas d'id au début de la méthode, car pas encore dans la bdd)
+     * @param $genre Le genre que l'on souhaite faire persister (qui n'aura donc pas d'id au début de la méthode, car pas encore dans la bdd)
      */
     public function persist(Genre $genre) {
         $connection = Database::getConnection();
@@ -64,14 +64,14 @@ class GenreRepository
 
         $query->execute();
 
-        //On assigne l'id auto incrémenté à l'instance de produit afin que l'objet soit complet après le persist
+        //On assigne l'id auto incrémenté à l'instance de genre afin que l'objet soit complet après le persist
         $genre->setId($connection->lastInsertId());
     }
 
     /**
-     * Méthode qui permet de supprimer un produit de la base de données en se basant sur son id
+     * Méthode qui permet de supprimer un genre de la base de données en se basant sur son id
      * 
-     * @param $id l'id du produit à supprimer
+     * @param $id l'id du genre à supprimer
      */
     public function delete(int $id) {
 
@@ -83,9 +83,9 @@ class GenreRepository
     }
 
     /**
-     * Méthode pour mettre un jour un produit existant en base de données
+     * Méthode pour mettre un jour un genre existant en base de données
      * 
-     * @param Genre $genre Le produit à mettre à jour. Il doit avoir un id correspondant à une ligne de la bdd
+     * @param Genre $genre Le genre à mettre à jour. Il doit avoir un id correspondant à une ligne de la bdd
      */
     public function update(Genre $genre) {
         
