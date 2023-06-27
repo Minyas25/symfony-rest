@@ -28,6 +28,26 @@ class GenreRepository
 
         return $list;
     }
+    /**
+     * @return Genre[]
+     */
+    public function findByMovie(int $id): array
+    {
+        $list = [];
+        $connection = Database::getConnection();
+
+        $query = $connection->prepare("SELECT * FROM genre 
+        LEFT JOIN genre_movie ON genre.id=genre_movie.id_genre 
+        WHERE genre_movie.id_movie=:id");
+        $query->bindValue(':id', $id);
+        $query->execute();
+
+        foreach ($query->fetchAll() as $line) {
+            $list[] = new Genre($line["label"], $line["id"]);
+        }
+
+        return $list;
+    }
 
     /**
      * Méthode permettant de récupérer un genre spécifique en se basant sur son id
