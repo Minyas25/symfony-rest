@@ -2,22 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Movie;
-use App\Repository\MovieRepository;
+use App\Entity\Genre;
+use App\Repository\GenreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-/**
- * Une API REST est une manière d'interagir avec les données d'un serveur en utilisant des requêtes HTTP
- * L'idée est pour le serveur d'exposer des routes qui permettront à des clients de manipuler les donnéees stockées pour des
- */
-#[Route('/api/movie')]
-class MovieController extends AbstractController
+
+#[Route('/api/genre')]
+class GenreController extends AbstractController
 {
 
-    public function __construct(private MovieRepository $repo) {}
+    public function __construct(private GenreRepository $repo) {}
 
 
     #[Route(methods: 'GET')]
@@ -29,19 +26,19 @@ class MovieController extends AbstractController
     #[Route('/{id}',methods: 'GET')]
     public function one(int $id): JsonResponse
     {
-        $movie = $this->repo->findById($id);
-        if($movie == null) {
+        $genre = $this->repo->findById($id);
+        if($genre == null) {
             return $this->json('Resource Not found', 404);
         }
 
-        return $this->json($movie);
+        return $this->json($genre);
     }
 
     #[Route('/{id}',methods: 'DELETE')]
     public function delete(int $id): JsonResponse
     {
-        $movie = $this->repo->findById($id);
-        if($movie == null) {
+        $genre = $this->repo->findById($id);
+        if($genre == null) {
             return $this->json('Resource Not found', 404);
         }
         $this->repo->delete($id);
@@ -52,27 +49,27 @@ class MovieController extends AbstractController
     #[Route(methods: 'POST')]
     public function add(Request $request, SerializerInterface $serializer) {
         // $data = $request->toArray();
-        // $movie = new Movie($data['title'], $data['resume'], new \DateTime($data['released']), $data['duration']);
+        // $genre = new Genre($data['title'], $data['resume'], new \DateTime($data['released']), $data['duration']);
 
-        $movie = $serializer->deserialize($request->getContent(), Movie::class, 'json');
-        $this->repo->persist($movie);
+        $genre = $serializer->deserialize($request->getContent(), Genre::class, 'json');
+        $this->repo->persist($genre);
 
-        return $this->json($movie, 201);
+        return $this->json($genre, 201);
     }
 
     #[Route('/{id}', methods: 'PATCH')]
     public function update(int $id, Request $request, SerializerInterface $serializer) {
 
-        $movie = $this->repo->findById($id);
-        if($movie == null) {
+        $genre = $this->repo->findById($id);
+        if($genre == null) {
             return $this->json('Resource Not found', 404);
         }
 
-        $serializer->deserialize($request->getContent(), Movie::class, 'json',[
-            'object_to_populate' => $movie
+        $serializer->deserialize($request->getContent(), Genre::class, 'json',[
+            'object_to_populate' => $genre
         ]);
-        $this->repo->update($movie);
+        $this->repo->update($genre);
 
-        return $this->json($movie);
+        return $this->json($genre);
     }
 }

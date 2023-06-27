@@ -23,7 +23,7 @@ class MovieRepository
         $query->execute();
 
         foreach ($query->fetchAll() as $line) {
-            $list[] = new Movie($line["title"], $line["resume"], new DateTime($line["released"]), $line['length'], $line["id"]);
+            $list[] = new Movie($line["title"], $line["resume"], new DateTime($line["released"]), $line['duration'], $line["id"]);
         }
 
         return $list;
@@ -44,7 +44,7 @@ class MovieRepository
         $query->execute();
 
         foreach ($query->fetchAll() as $line) {
-            return new Movie($line["title"], $line["resume"], new DateTime($line["released"]), $line['length'], $line["id"]);
+            return new Movie($line["title"], $line["resume"], new DateTime($line["released"]), $line['duration'], $line["id"]);
         }
         return null;
 
@@ -58,11 +58,11 @@ class MovieRepository
     public function persist(Movie $movie) {
         $connection = Database::getConnection();
 
-        $query = $connection->prepare("INSERT INTO movie (title,resume,released,length) VALUES (:title,:resume,:released,:length)");
+        $query = $connection->prepare("INSERT INTO movie (title,resume,released,duration) VALUES (:title,:resume,:released,:duration)");
         $query->bindValue(':title', $movie->getTitle());
         $query->bindValue(':resume', $movie->getResume());
         $query->bindValue(':released', $movie->getReleased()->format('Y-m-d'));
-        $query->bindValue(':length', $movie->getLength());
+        $query->bindValue(':duration', $movie->getDuration());
         
 
         $query->execute();
@@ -94,11 +94,11 @@ class MovieRepository
         
         $connection = Database::getConnection();
 
-        $query = $connection->prepare("UPDATE movie SET title=:title, resume=:resume, released=:released, length=:length WHERE id=:id");
+        $query = $connection->prepare("UPDATE movie SET title=:title, resume=:resume, released=:released, duration=:duration WHERE id=:id");
         $query->bindValue(':title', $movie->getTitle());
         $query->bindValue(':resume', $movie->getResume());
         $query->bindValue(':released', $movie->getReleased()->format('Y-m-d'));
-        $query->bindValue(':length', $movie->getLength());
+        $query->bindValue(':duration', $movie->getDuration());
         $query->bindValue(":id", $movie->getId());
 
         $query->execute();

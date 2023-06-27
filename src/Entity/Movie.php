@@ -11,7 +11,7 @@ class Movie
         private string $title,
         private string $resume,
         private DateTime $released,
-        private int $length,
+        private int $duration,
         private ?int $id = null
     ) {}
 
@@ -90,18 +90,18 @@ class Movie
     /**
      * @return int
      */
-    public function getLength(): int
+    public function getDuration(): int
     {
-        return $this->length;
+        return $this->duration;
     }
 
     /**
-     * @param int $length 
+     * @param int $duration 
      * @return self
      */
-    public function setLength(int $length): self
+    public function setDuration(int $duration): self
     {
-        $this->length = $length;
+        $this->duration = $duration;
         return $this;
     }
 }
