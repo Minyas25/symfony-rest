@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "3c6fba5a-1dfb-4000-b1a0-1a44539f6080",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:8000/api/movie",
+    "url": "localhost:8000/api/movie",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-06-27T09:06:40.214Z",
+    "modified": "2023-06-27T09:06:40.214Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]

@@ -7,6 +7,10 @@ use DateTime;
 class Movie
 {
 
+    /**
+     * @var Genre[]
+     */
+    private array $genres = [];
     public function __construct(
         private string $title,
         private string $resume,
@@ -102,6 +106,29 @@ class Movie
     public function setDuration(int $duration): self
     {
         $this->duration = $duration;
+        return $this;
+    }
+
+	/**
+	 * 
+	 * @return Genre[]
+	 */
+	public function getGenres(): array {
+		return $this->genres;
+	}
+	
+	/**
+	 * 
+	 * @param Genre[] $genres 
+	 * @return self
+	 */
+	public function setGenres(array $genres): self {
+		$this->genres = $genres;
+		return $this;
+	}
+
+    public function addGenre(Genre $genre):self{
+        $this->genres[] = $genre;
         return $this;
     }
 }
