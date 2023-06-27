@@ -33,6 +33,12 @@ class GenreController extends AbstractController
 
         return $this->json($genre);
     }
+    
+    #[Route('/movie/{id}', methods:'GET')]
+    public function movieGenres(int $id):JsonResponse {
+        $genres = $this->repo->findByMovie($id);
+        return $this->json($genres);
+    }
 
     #[Route('/{id}',methods: 'DELETE')]
     public function delete(int $id): JsonResponse

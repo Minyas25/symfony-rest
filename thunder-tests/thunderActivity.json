@@ -12,5 +12,47 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "25ba3805-9cd6-4f2e-9b79-7375f54c7964",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:8000/api/genre",
+    "url": "localhost:8000/api/genre",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-06-27T12:01:33.609Z",
+    "modified": "2023-06-27T12:01:33.609Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "7cc225cd-e898-41f3-b4fa-fbd53f99e388",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:8000/api/genre/movie/1",
+    "url": "localhost:8000/api/genre/movie/1",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-06-27T12:32:57.447Z",
+    "modified": "2023-06-27T12:32:57.447Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "ce27e928-60ee-4324-8b3a-c2e4c00895ca",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:8000/api/genre/movie/3",
+    "url": "localhost:8000/api/genre/movie/3",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-06-27T12:33:14.165Z",
+    "modified": "2023-06-27T12:33:14.165Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

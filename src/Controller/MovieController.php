@@ -26,6 +26,7 @@ class MovieController extends AbstractController
         return $this->json($this->repo->findAll());
     }
 
+
     #[Route('/{id}',methods: 'GET')]
     public function one(int $id): JsonResponse
     {
