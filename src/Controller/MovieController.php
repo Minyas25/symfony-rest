@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * Une API REST est une manière d'interagir avec les données d'un serveur en utilisant des requêtes HTTP
  * L'idée est pour le serveur d'exposer des routes qui permettront à des clients de manipuler les donnéees stockées pour des
@@ -51,11 +52,15 @@ class MovieController extends AbstractController
     }
 
     #[Route(methods: 'POST')]
-    public function add(Request $request, SerializerInterface $serializer) {
+    public function add(Request $request, SerializerInterface $serializer, ValidatorInterface $validator) {
         // $data = $request->toArray();
         // $movie = new Movie($data['title'], $data['resume'], new \DateTime($data['released']), $data['duration']);
 
         $movie = $serializer->deserialize($request->getContent(), Movie::class, 'json');
+        $errors = $validator->validate($movie);
+        if($errors->count() > 0) {
+            return $this->json(['errors' => $errors], 400);
+        }
         $this->repo->persist($movie);
 
         return $this->json($movie, 201);

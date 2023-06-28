@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use DateTime;
-
+use Symfony\Component\Validator\Constraints as Assert;
 class Movie
 {
 
@@ -12,9 +12,11 @@ class Movie
      */
     private array $genres = [];
     public function __construct(
+        #[Assert\NotBlank]
         private string $title,
         private string $resume,
         private DateTime $released,
+        #[Assert\Positive]
         private int $duration,
         private ?int $id = null
     ) {}

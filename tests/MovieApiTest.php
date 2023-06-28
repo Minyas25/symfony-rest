@@ -73,6 +73,25 @@ class MovieApiTest extends WebTestCase
 
         $this->assertIsInt($json['id']);
     }
+    public function testPostValidationFailed(): void
+    {
+        $client = static::createClient();
+        $client->request('POST', '/api/movie', content: json_encode([
+            'title' => '',
+            'resume' => 'Resume Test',
+            'released' => '2020-10-01',
+            'duration' => -100
+        ]));
+        $json = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertResponseStatusCodeSame(400);
+
+        $this->assertStringContainsString('title', $json['errors']['detail']);
+        $this->assertStringContainsString('duration', $json['errors']['detail']);
+
+    }
+
+
     public function testPatchSuccess(): void
     {
         $client = static::createClient();
