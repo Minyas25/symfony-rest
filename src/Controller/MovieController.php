@@ -55,8 +55,12 @@ class MovieController extends AbstractController
     public function add(Request $request, SerializerInterface $serializer, ValidatorInterface $validator) {
         // $data = $request->toArray();
         // $movie = new Movie($data['title'], $data['resume'], new \DateTime($data['released']), $data['duration']);
+        try {
 
-        $movie = $serializer->deserialize($request->getContent(), Movie::class, 'json');
+            $movie = $serializer->deserialize($request->getContent(), Movie::class, 'json');
+        }catch(\Exception $error) {
+            return $this->json('Invalid body', 400);
+        }
         $errors = $validator->validate($movie);
         if($errors->count() > 0) {
             return $this->json(['errors' => $errors], 400);
