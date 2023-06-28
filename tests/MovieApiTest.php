@@ -2,11 +2,20 @@
 
 namespace App\Tests;
 
+use App\Repository\Database;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class MovieApiTest extends WebTestCase
 {
-    public function testGetAll(): void
+    /**
+     * La méthode setUp sera déclenchée avant l'exécution de chacun des tests de la classe actuelle.
+     * Ici on lui dit de remettre à zéro la bdd en se basant sur le contenu du database.sql
+     */
+    public function setUp():void {
+        Database::getConnection()->query(file_get_contents(__DIR__.'/../database.sql'));
+    }
+
+    public function testGetAllSuccess(): void
     {
         $client = static::createClient();
         $client->request('GET', '/api/movie');
@@ -36,6 +45,10 @@ class MovieApiTest extends WebTestCase
         $this->assertIsInt($json['id']);
        
     }
+    /**
+     * En général c'est bien de faire différents tests dédiés aux différents scénarios prévu. Ici on vérifie
+     * qu'on a bien l'erreur attendue quand on requête une ressource inexistante
+     */
     public function testGetOneNotFound(): void
     {
         $client = static::createClient();
@@ -59,5 +72,39 @@ class MovieApiTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         $this->assertIsInt($json['id']);
+    }
+    public function testPatchSuccess(): void
+    {
+        $client = static::createClient();
+        $client->request('PATCH', '/api/movie/2', content: json_encode([
+            'title' => 'From Test'
+        ]));
+        $json = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertResponseIsSuccessful();
+
+        //On vérifie que le champ à modifier l'a bien été
+        $this->assertEquals($json['title'], 'From Test');
+        //Et pourquoi pas que les autres champs sont restés inchangés
+        $this->assertEquals($json['resume'], 'a mafia movie sequel');
+        $this->assertEquals($json['released'], '1974-12-20T00:00:00+00:00');
+    }
+    
+    public function testPatchNotFound(): void
+    {
+        $client = static::createClient();
+        $client->request('PATCH', '/api/movie/100');
+        
+        $this->assertResponseStatusCodeSame(404);
+
+    }
+    
+    public function testDeleteSuccess(): void
+    {
+        $client = static::createClient();
+        $client->request('DELETE', '/api/movie/1');
+        
+        $this->assertResponseIsSuccessful();
+
     }
 }
