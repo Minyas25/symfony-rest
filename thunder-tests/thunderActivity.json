@@ -61,15 +61,15 @@
         "containerId": "",
         "name": "localhost:8000/api/movie",
         "url": "localhost:8000/api/movie",
-        "method": "POST",
+        "method": "GET",
         "sortNum": 0,
         "created": "2023-06-28T09:49:41.450Z",
-        "modified": "2023-06-28T10:04:26.016Z",
+        "modified": "2023-06-28T12:18:02.576Z",
         "headers": [],
         "params": [],
         "body": {
             "type": "json",
-            "raw": "{\n  \"title\":\"\",\n  \"duration\": -100,\n  \"resume\":\"bloup\",\n  \"released\":\"2020-01-01\"\n\n}",
+            "raw": "{\n  \"title\":\"valide\",\n  \"duration\": 100,\n  \"resume\":\"bloup\",\n  \"released\":\"2020-01-01\",\n  \"genres\": [\n    {\"id\":1, \"label\": \"Horror\"},\n    {\"id\":2, \"label\": \"Sci-fi\"}\n  ]\n\n}",
             "form": []
         },
         "tests": []

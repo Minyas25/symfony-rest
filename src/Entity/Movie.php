@@ -6,7 +6,6 @@ use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 class Movie
 {
-
     /**
      * @var Genre[]
      */

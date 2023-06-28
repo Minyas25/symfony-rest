@@ -107,7 +107,20 @@ class MovieRepository
 
         //On assigne l'id auto incrémenté à l'instance de movie afin que l'objet soit complet après le persist
         $movie->setId($connection->lastInsertId());
+
+        // foreach($movie->getGenres() as $genre) {
+        //     $this->associateGenre($movie->getId(), $genre->getId());
+        // }
     }
+
+    // public function associateGenre(int $idMovie, int $idGenre) {
+    //     $connection = Database::getConnection();
+
+    //     $query = $connection->prepare("INSERT INTO genre_movie (id_movie,id_genre) VALUES (:idMovie,:idGenre)");
+    //     $query->bindValue(':idMovie', $idMovie);
+    //     $query->bindValue(':idGenre', $idGenre);
+    //     $query->execute();
+    // }
 
     /**
      * Méthode qui permet de supprimer un movie de la base de données en se basant sur son id
