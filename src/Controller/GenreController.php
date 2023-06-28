@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/genre')]
 class GenreController extends AbstractController
@@ -53,27 +54,43 @@ class GenreController extends AbstractController
     }
 
     #[Route(methods: 'POST')]
-    public function add(Request $request, SerializerInterface $serializer) {
+    public function add(Request $request, SerializerInterface $serializer, ValidatorInterface $validator) {
         // $data = $request->toArray();
         // $genre = new Genre($data['title'], $data['resume'], new \DateTime($data['released']), $data['duration']);
 
-        $genre = $serializer->deserialize($request->getContent(), Genre::class, 'json');
+        try {
+
+            $genre = $serializer->deserialize($request->getContent(), Genre::class, 'json');
+        } catch (\Exception $error) {
+            return $this->json('Invalid body', 400);
+        }
+        $errors = $validator->validate($genre);
+        if ($errors->count() > 0) {
+            return $this->json(['errors' => $errors], 400);
+        }
         $this->repo->persist($genre);
 
         return $this->json($genre, 201);
     }
 
     #[Route('/{id}', methods: 'PATCH')]
-    public function update(int $id, Request $request, SerializerInterface $serializer) {
+    public function update(int $id, Request $request, SerializerInterface $serializer, ValidatorInterface $validator) {
 
         $genre = $this->repo->findById($id);
         if($genre == null) {
             return $this->json('Resource Not found', 404);
         }
-
-        $serializer->deserialize($request->getContent(), Genre::class, 'json',[
-            'object_to_populate' => $genre
-        ]);
+        try {
+            $serializer->deserialize($request->getContent(), Genre::class, 'json', [
+                'object_to_populate' => $genre
+            ]);
+        } catch (\Exception $error) {
+            return $this->json('Invalid body', 400);
+        }
+        $errors = $validator->validate($genre);
+        if ($errors->count() > 0) {
+            return $this->json(['errors' => $errors], 400);
+        }
         $this->repo->update($genre);
 
         return $this->json($genre);

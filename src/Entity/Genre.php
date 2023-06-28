@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Genre
 {
 
     public function __construct(
+        #[Assert\NotBlank]
         private string $label,
         private ?int $id = null
     ) {
