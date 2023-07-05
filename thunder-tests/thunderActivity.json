@@ -73,5 +73,47 @@
             "form": []
         },
         "tests": []
+    },
+    {
+        "_id": "e9d58f48-1326-47a4-b65a-2ef83de6df03",
+        "colId": "history",
+        "containerId": "",
+        "name": "localhost:8000/api/movie/search/Star wars",
+        "url": "localhost:8000/api/movie/search/Star wars",
+        "method": "GET",
+        "sortNum": 0,
+        "created": "2023-07-05T11:43:51.250Z",
+        "modified": "2023-07-05T11:43:51.250Z",
+        "headers": [],
+        "params": [],
+        "tests": []
+    },
+    {
+        "_id": "f9a176f5-a448-4713-8e85-03da5c5b5a15",
+        "colId": "history",
+        "containerId": "",
+        "name": "localhost:8000/api/movie/search/i",
+        "url": "localhost:8000/api/movie/search/i",
+        "method": "GET",
+        "sortNum": 0,
+        "created": "2023-07-05T11:44:06.437Z",
+        "modified": "2023-07-05T11:44:06.437Z",
+        "headers": [],
+        "params": [],
+        "tests": []
+    },
+    {
+        "_id": "ee82ec83-f6e7-4fed-a2db-875711d8a6a4",
+        "colId": "history",
+        "containerId": "",
+        "name": "localhost:8000/api/movie/search/bloup",
+        "url": "localhost:8000/api/movie/search/bloup",
+        "method": "GET",
+        "sortNum": 0,
+        "created": "2023-07-05T11:44:27.637Z",
+        "modified": "2023-07-05T11:44:27.637Z",
+        "headers": [],
+        "params": [],
+        "tests": []
     }
 ]

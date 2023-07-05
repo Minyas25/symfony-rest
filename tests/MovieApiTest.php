@@ -29,6 +29,33 @@ class MovieApiTest extends WebTestCase
        
     }
 
+    
+    public function testSearchWithResults(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/movie/search/father');
+        $json = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertCount(2, $json);
+        $this->assertStringContainsString('father', $json[0]['title']);
+        $this->assertIsInt($json[0]['id']);
+       
+    }
+
+    public function testSearchNoResult(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/movie/search/bloup');
+        $json = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertEmpty($json);
+       
+    }
+
 
     public function testGetOneSuccess(): void
     {

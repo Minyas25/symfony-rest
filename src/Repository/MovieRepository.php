@@ -89,6 +89,23 @@ class MovieRepository
     }
 
     /**
+     * Méthode de recherche dans la base de données, par title/resume/released approximatifs
+     * @return Movie[] La liste des films qui contiennent la recherche
+     */
+    public function search(string $term): array {
+        $list = [];
+        $connection= Database::getConnection();
+
+        $query = $connection->prepare('SELECT * FROM movie WHERE CONCAT(title,resume,released) LIKE :term');
+        $query->bindValue(':term', "%$term%");
+        $query->execute();
+        foreach ($query->fetchAll() as $line) {
+            $list[] = new Movie($line['title'], $line['resume'], new DateTime($line['released']), $line['duration'], $line['id']);
+        }
+        return $list;
+    }
+
+    /**
      * Méthode qui va prendre une instance de Movie en argument et va la transformer en requête INSERT INTO pour 
      * la faire persister en base de données
      * @param $movie Le movie que l'on souhaite faire persister (qui n'aura donc pas d'id au début de la méthode, car pas encore dans la bdd)
