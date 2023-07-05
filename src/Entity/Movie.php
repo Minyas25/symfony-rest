@@ -10,6 +10,7 @@ class Movie
      * @var Genre[]
      */
     private array $genres = [];
+    private ?string $picture;
     public function __construct(
         #[Assert\NotBlank]
         private string $title,
@@ -132,4 +133,20 @@ class Movie
         $this->genres[] = $genre;
         return $this;
     }
+
+	/**
+	 * @return ?string
+	 */
+	public function getPicture(): ?string {
+		return $this->picture;
+	}
+	
+	/**
+	 * @param ?string $picture 
+	 * @return self
+	 */
+	public function setPicture(?string $picture): self {
+		$this->picture = $picture;
+		return $this;
+	}
 }

@@ -9,7 +9,8 @@ CREATE TABLE movie (
     title VARCHAR(255) NOT NULL,
     resume TEXT,
     released DATE,
-    duration INT
+    duration INT,
+    picture VARCHAR(255)
 );
 
 CREATE TABLE genre (

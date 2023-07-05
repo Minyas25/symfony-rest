@@ -32,6 +32,7 @@ class MovieRepository
         foreach ($query->fetchAll() as $line) {
             if(empty($previousMovie) || $previousMovie->getId() != $line['movie_id']) {
                 $previousMovie =new Movie($line["title"], $line["resume"], new DateTime($line["released"]), $line['duration'], $line["movie_id"]);
+                $previousMovie->setPicture($line["picture"]);
                 $list[]= $previousMovie;
             }
             if(isset($line['genre_id'])) {
@@ -59,6 +60,7 @@ class MovieRepository
         foreach ($query->fetchAll() as $line) {
             $genres = $genreRepo->findByMovie($line['id']);
             $movie = new Movie($line["title"], $line["resume"], new DateTime($line["released"]), $line['duration'], $line["id"]);
+            $movie->setPicture($line['picture']);
             $movie->setGenres($genres);
             
             $list[] = $movie;
@@ -82,7 +84,9 @@ class MovieRepository
         $query->execute();
 
         foreach ($query->fetchAll() as $line) {
-            return new Movie($line["title"], $line["resume"], new DateTime($line["released"]), $line['duration'], $line["id"]);
+            $movie = new Movie($line["title"], $line["resume"], new DateTime($line["released"]), $line['duration'], $line["id"]);
+            $movie->setPicture($line['picture']);
+            return $movie;
         }
         return null;
 
@@ -100,7 +104,9 @@ class MovieRepository
         $query->bindValue(':term', "%$term%");
         $query->execute();
         foreach ($query->fetchAll() as $line) {
-            $list[] = new Movie($line['title'], $line['resume'], new DateTime($line['released']), $line['duration'], $line['id']);
+            $movie =new Movie($line['title'], $line['resume'], new DateTime($line['released']), $line['duration'], $line['id']);
+            $movie->setPicture($line['picture']);
+            $list[] = $movie;
         }
         return $list;
     }
@@ -113,11 +119,12 @@ class MovieRepository
     public function persist(Movie $movie) {
         $connection = Database::getConnection();
 
-        $query = $connection->prepare("INSERT INTO movie (title,resume,released,duration) VALUES (:title,:resume,:released,:duration)");
+        $query = $connection->prepare("INSERT INTO movie (title,resume,released,duration,picture) VALUES (:title,:resume,:released,:duration,:picture)");
         $query->bindValue(':title', $movie->getTitle());
         $query->bindValue(':resume', $movie->getResume());
         $query->bindValue(':released', $movie->getReleased()->format('Y-m-d'));
         $query->bindValue(':duration', $movie->getDuration());
+        $query->bindValue(':picture', $movie->getPicture());
         
 
         $query->execute();
@@ -162,11 +169,13 @@ class MovieRepository
         
         $connection = Database::getConnection();
 
-        $query = $connection->prepare("UPDATE movie SET title=:title, resume=:resume, released=:released, duration=:duration WHERE id=:id");
+        $query = $connection->prepare("UPDATE movie SET title=:title, resume=:resume, released=:released, duration=:duration, picture=:picture WHERE id=:id");
         $query->bindValue(':title', $movie->getTitle());
         $query->bindValue(':resume', $movie->getResume());
         $query->bindValue(':released', $movie->getReleased()->format('Y-m-d'));
         $query->bindValue(':duration', $movie->getDuration());
+        $query->bindValue(':picture', $movie->getPicture());
+
         $query->bindValue(":id", $movie->getId());
 
         $query->execute();

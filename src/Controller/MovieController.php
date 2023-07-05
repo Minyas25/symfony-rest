@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Movie;
 use App\Repository\MovieRepository;
+use App\Service\Uploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,7 +62,7 @@ class MovieController extends AbstractController
     }
 
     #[Route(methods: 'POST')]
-    public function add(Request $request, SerializerInterface $serializer, ValidatorInterface $validator)
+    public function add(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, Uploader $uploader)
     {
         // $data = $request->toArray();
         // $movie = new Movie($data['title'], $data['resume'], new \DateTime($data['released']), $data['duration']);
@@ -74,6 +75,11 @@ class MovieController extends AbstractController
         $errors = $validator->validate($movie);
         if ($errors->count() > 0) {
             return $this->json(['errors' => $errors], 400);
+        }
+        if($movie->getPicture()) {
+
+            $filename = $uploader->upload($movie->getPicture());
+            $movie->setPicture($filename);
         }
         $this->repo->persist($movie);
 
