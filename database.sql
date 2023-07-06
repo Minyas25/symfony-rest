@@ -1,4 +1,4 @@
--- Active: 1687764265104@@127.0.0.1@3306@symfony_rest
+-- Active: 1688384959620@@127.0.0.1@3306@m2i_symfony_rest
 
 DROP TABLE IF EXISTS genre_movie;
 DROP TABLE IF EXISTS movie;
